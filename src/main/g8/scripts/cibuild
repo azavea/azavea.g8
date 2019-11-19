@@ -1,0 +1,41 @@
+#!/bin/bash
+
+set -e
+
+if [[ -n "\${$name;format="upper,snake"$_DEBUG}" ]]; then
+    set -x
+fi
+
+if [[ -n "\${GIT_COMMIT}" ]]; then
+    GIT_COMMIT="\${GIT_COMMIT:0:7}"
+else
+    GIT_COMMIT="\$(git rev-parse --short HEAD)"
+fi
+
+function usage() {
+    echo -n \
+"Usage: \$(basename "\$0")
+
+Build application for staging or a release.
+"
+}
+
+function build_assembly() {
+    echo -e "\e[32m[$name$] Building Scala assembly JAR\e[0m"
+    sbt application/assembly
+}
+
+
+if [ "\${BASH_SOURCE[0]}" = "\${0}" ]; then
+    case "\${1}" in
+        --help)
+            usage
+            ;;
+        *)
+            ./scripts/tests
+
+            build_assembly
+            echo -e "\e[32m[$name$] Building scala container image\e[0m"
+            docker build -t "$name;format="norm"$:\${GIT_COMMIT}" application
+    esac
+fi
