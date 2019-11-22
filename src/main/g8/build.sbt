@@ -83,6 +83,11 @@ lazy val settings = Seq(
     case "META-INF/MANIFEST.MF" => MergeStrategy.discard
     case _                      => MergeStrategy.first
   },
+  excludeDependencies ++= Seq(
+    "log4j"     % "log4j",
+    "org.slf4j" % "slf4j-log4j12",
+    "org.slf4j" % "slf4j-nop"
+  ),
   externalResolvers := Seq(
     DefaultMavenRepository,
     Resolver.sonatypeRepo("snapshots"),
