@@ -59,6 +59,10 @@ val tapirOpenAPICirceYAML = "com.softwaremill.tapir" %% "tapir-openapi-circe-yam
 val tapirOpenAPIDocs = "com.softwaremill.tapir" %% "tapir-openapi-docs" % TapirVersion
 val tapirSwaggerUIHttp4s = "com.softwaremill.tapir" %% "tapir-swagger-ui-http4s" % TapirVersion
 
+// Enable a basic import sorter -- rules are defined in .scalafix.conf
+scalafixDependencies in ThisBuild +=
+  "com.nequissimus" %% "sort-imports" % "0.3.2"
+
 lazy val settings = Seq(
   organization := "$organization$",
   name := "$name;format="norm"$",
