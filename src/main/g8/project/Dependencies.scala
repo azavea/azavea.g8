@@ -4,22 +4,22 @@ import sbt._
 
 // Versions
 object Versions {
-  val CirceFs2Version  = "0.11.0"
-  val CirceVersion     = "0.11.1"
-  val DeclineVersion   = "0.6.2"
-  val DoobieVersion    = "0.7.1"
+  val CirceFs2Version  = "0.13.0"
+  val CirceVersion     = "0.13.0"
+  val DeclineVersion   = "1.2.0"
+  val DoobieVersion    = "0.9.0"
   val EmojiVersion     = "1.2.1"
-  val Flyway           = "5.2.4"
-  val GeotrellisServer = "3.4.0-8-g362e95f-SNAPSHOT"
-  val Http4sVersion    = "0.20.10"
-  val Log4CatsVersion  = "0.3.0"
-  val LogbackVersion   = "1.2.3"
-  val Postgis          = "2.2.1"
+  val Flyway           = "6.5.0"
+  val GeotrellisServer = "4.2.0"
+  val Http4sVersion    = "0.21.5"
+  val Log4CatsVersion  = "1.1.1"
+  val Postgis          = "2.5.0"
   val PureConfig       = "0.12.1"
-  val Refined          = "0.9.3"
-  val ScapegoatVersion = "1.3.8"
-  val Specs2Version    = "4.6.0"
-  val TapirVersion     = "0.10.1"
+  val Refined          = "0.9.14"
+  val ScapegoatVersion = "1.3.11"
+  val Slf4jVersion     = "1.7.30"
+  val Specs2Version    = "4.10.0"
+  val TapirVersion     = "0.16.1"
 }
 
 object Dependencies {
@@ -44,11 +44,12 @@ object Dependencies {
   val http4sDsl             = "org.http4s"             %% "http4s-dsl"               % Versions.Http4sVersion
   val http4sServer          = "org.http4s"             %% "http4s-blaze-server"      % Versions.Http4sVersion
   val log4cats              = "io.chrisdavenport"      %% "log4cats-slf4j"           % Versions.Log4CatsVersion
-  val logbackClassic        = "ch.qos.logback"         % "logback-classic"           % Versions.LogbackVersion
   val postgis               = "net.postgis"            % "postgis-jdbc"              % Versions.Postgis
   val pureConfig            = "com.github.pureconfig"  %% "pureconfig"               % Versions.PureConfig
   val refined               = "eu.timepit"             %% "refined"                  % Versions.Refined
   val refinedCats           = "eu.timepit"             %% "refined-cats"             % Versions.Refined
+  val slf4jApi              = "org.slf4j"              % "slf4j-api"                 % Versions.Slf4jVersion
+  val slf4jSimple           = "org.slf4j"              % "slf4j-simple"              % Versions.Slf4jVersion
   val specs2Core            = "org.specs2"             %% "specs2-core"              % Versions.Specs2Version % "test"
   val tapir                 = "com.softwaremill.tapir" %% "tapir-core"               % Versions.TapirVersion
   val tapirCirce            = "com.softwaremill.tapir" %% "tapir-json-circe"         % Versions.TapirVersion
