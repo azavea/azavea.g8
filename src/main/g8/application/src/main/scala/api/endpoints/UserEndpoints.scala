@@ -3,8 +3,8 @@ package $package$.api.endpoints
 import java.util.UUID
 
 import $package$.datamodel.User
-import tapir._
-import tapir.json.circe._
+import sttp.tapir._
+import sttp.tapir.json.circe._
 
 object UserEndpoints {
 

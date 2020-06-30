@@ -11,9 +11,9 @@ import org.http4s.implicits._
 import org.http4s.server.blaze._
 import org.http4s.server.middleware._
 import org.http4s.server.{Router, Server => HTTP4sServer}
-import tapir.docs.openapi._
-import tapir.openapi.circe.yaml._
-import tapir.swagger.http4s.SwaggerHttp4s
+import sttp.tapir.docs.openapi._
+import sttp.tapir.openapi.circe.yaml._
+import sttp.tapir.swagger.http4s.SwaggerHttp4s
 
 object Server extends IOApp {
 
@@ -23,14 +23,14 @@ object Server extends IOApp {
   ): Resource[IO, HTTP4sServer[IO]] =
     for {
       connectionEc <- ExecutionContexts.fixedThreadPool[IO](2)
-      transactionEc <- ExecutionContexts.cachedThreadPool[IO]
+      blocker <- Blocker[IO]
       xa <- HikariTransactor.newHikariTransactor[IO](
         "org.postgresql.Driver",
         dbConfig.jdbcUrl,
         dbConfig.dbUser,
         dbConfig.dbPass,
         connectionEc,
-        transactionEc
+        blocker
       )
       allEndpoints = UserEndpoints.endpoints
       docs = allEndpoints.toOpenAPI("$name$", "0.0.1")

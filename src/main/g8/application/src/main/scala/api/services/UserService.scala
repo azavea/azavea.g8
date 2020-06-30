@@ -12,7 +12,7 @@ import doobie._
 import doobie.implicits._
 import org.http4s._
 import org.http4s.dsl.Http4sDsl
-import tapir.server.http4s._
+import sttp.tapir.server.http4s._
 import eu.timepit.refined.auto._
 
 class UsersService[F[_]: Sync](xa: Transactor[F])(
