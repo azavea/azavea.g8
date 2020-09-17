@@ -21,5 +21,5 @@ This project uses [`scripts-to-rule-them-all`](https://github.blog/2015-06-30-sc
 | `server` | Start the server |
 | `dbshell` | Open a `psql` shell connected to the database |
 | `migrate` | Run migrations against the database |
-| `tests` | Run tests |
+| `test` | Run test |
 | `cibuild` | Assemble jars and create containers |
