@@ -65,7 +65,7 @@ lazy val settings = Seq(
   organization := "$organization$",
   name := "$name;format="norm"$",
   version := "0.0.1-SNAPSHOT",
-  scalaVersion := "2.12.11",
+  scalaVersion := "2.12.12",
   scalafmtOnCompile := true,
   scapegoatVersion in ThisBuild := ScapegoatVersion,
   addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.11.0" cross CrossVersion.full),
