@@ -44,7 +44,7 @@ object Server extends IOApp {
         )
       ).orNotFound
       server <- {
-        BlazeServerBuilder[IO]
+        BlazeServerBuilder[IO](connectionEc)
           .bindHttp(apiConfig.internalPort.value, "0.0.0.0")
           .withHttpApp(router)
           .resource
