@@ -1,5 +1,5 @@
-cancelable in Global := true
-onLoad in Global ~= (_ andThen ("project application" :: _))
+Global / cancelable := true
+Global / onLoad ~= (_ andThen ("project application" :: _))
 
 import sbt._
 
@@ -58,7 +58,7 @@ val tapirOpenAPIDocs = "com.softwaremill.sttp.tapir" %% "tapir-openapi-docs" % T
 val tapirSwaggerUIHttp4s = "com.softwaremill.sttp.tapir" %% "tapir-swagger-ui-http4s" % TapirVersion
 
 // Enable a basic import sorter -- rules are defined in .scalafix.conf
-scalafixDependencies in ThisBuild +=
+ThisBuild / scalafixDependencies +=
   "com.nequissimus" %% "sort-imports" % "0.5.4"
 
 lazy val settings = Seq(
@@ -67,7 +67,7 @@ lazy val settings = Seq(
   version := "0.0.1-SNAPSHOT",
   scalaVersion := "2.12.12",
   scalafmtOnCompile := true,
-  scapegoatVersion in ThisBuild := ScapegoatVersion,
+  ThisBuild / scapegoatVersion := ScapegoatVersion,
   addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.11.0" cross CrossVersion.full),
   addCompilerPlugin("com.olegpy" %% "better-monadic-for" % "0.3.1"),
   addCompilerPlugin(
@@ -75,8 +75,8 @@ lazy val settings = Seq(
   ),
   addCompilerPlugin(scalafixSemanticdb),
   autoCompilerPlugins := true,
-  assemblyJarName in assembly := "application-assembly.jar",
-  assemblyMergeStrategy in assembly := {
+  assembly / assemblyJarName := "application-assembly.jar",
+  assembly / assemblyMergeStrategy := {
     case "reference.conf"                       => MergeStrategy.concat
     case "application.conf"                     => MergeStrategy.concat
     case n if n.startsWith("META-INF/services") => MergeStrategy.concat
@@ -104,7 +104,8 @@ lazy val settings = Seq(
     Resolver.file("local", file(Path.userHome.absolutePath + "/.ivy2/local"))(
       Resolver.ivyStylePatterns
     )
-  )
+  ),
+  run / fork := true
 )
 
 lazy val dependencies = Seq(
