@@ -18,31 +18,31 @@ trait DatabaseOptions {
   private val databasePortHelp = "Port to connect to database on"
   private val databasePort = (Opts
     .option[PosInt]("db-port", help = databasePortHelp)
-    .orElse Opts.env[PosInt]("POSTGRES_PORT", help=databasePortHelp))
+    .orElse(Opts.env[PosInt]("POSTGRES_PORT", help=databasePortHelp)))
     .withDefault(PosInt($default_db_port$))
 
   private val databaseHostHelp = "Database host to connect to"
   private val databaseHost = (Opts
     .option[String]("db-host", help = databaseHostHelp)
-    .orElse Opts.env[String]("POSTGRES_HOST", help=databaseHostHelp))
+    .orElse(Opts.env[String]("POSTGRES_HOST", help=databaseHostHelp)))
     .withDefault("localhost")
 
   private val databaseNameHelp = "Database name to connect to"
   private val databaseName = (Opts
     .option[String]("db-name", help = databaseNameHelp)
-    .orElse Opts.env[String]("POSTGRES_NAME", help = databaseNameHelp))
+    .orElse(Opts.env[String]("POSTGRES_NAME", help = databaseNameHelp)))
     .withDefault("$name;format="norm"$")
 
   private val databasePasswordHelp = "Database password to use"
   private val databasePassword = (Opts
     .option[String]("db-password", help = databasePasswordHelp)
-    .orElse Opts.env[String]("POSTGRES_PASSWORD", help = databasePasswordHelp))
+    .orElse(Opts.env[String]("POSTGRES_PASSWORD", help = databasePasswordHelp)))
     .withDefault("$name;format="norm"$")
 
   private val databaseUserHelp = "User to connect with database with"
   private val databaseUser = (Opts
     .option[String]("db-user", help = databaseUserHelp)
-    .orElse Opts.env[String]("POSTGRES_USER", help = databaseUserHelp))
+    .orElse(Opts.env[String]("POSTGRES_USER", help = databaseUserHelp)))
     .withDefault("$name;format="norm"$")
 
   def databaseConfig(
