@@ -56,7 +56,7 @@ object Server extends IOApp {
   override def run(args: List[String]): IO[ExitCode] = {
     import Commands._
 
-    applicationCommand.parse(args) map {
+    applicationCommand.parse(args, env = sys.env) map {
       case RunServer(apiConfig, dbConfig) =>
         createServer(apiConfig, dbConfig)
           .use(_ => IO.never)
