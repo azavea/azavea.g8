@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        jdk-version: [adopt@1.11]
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Scala ${{ matrix.jdk-version }}
+        uses: olafurpg/setup-scala@v10
+        with:
+          java-version: ${{ matrix.jdk-version }}
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.ivy2/cache
+            ~/.sbt
+          key: sbt-${{ hashFiles('**/build.sbt') }}
+          restore-keys: sbt-
+
+      - name: Create new project from template
+        run: |
+          sbt new file://${GITHUB_WORKSPACE} \
+            --name=ci \
+            --organization=com.azavea \
+            --package=com.azavea.ci \
+            --default-api-port=8080 \
+            --default-db-port=5432
+          cd ci && sbt ";bloopInstall; scalafmt; scalafmtSbt"
