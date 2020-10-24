@@ -34,8 +34,8 @@
 
 set -o pipefail
 
-declare -r sbt_release_version="1.3.13"
-declare -r sbt_unreleased_version="1.4.0-RC2"
+declare -r sbt_release_version="1.4.0"
+declare -r sbt_unreleased_version="1.4.0"
 
 declare -r latest_213="2.13.3"
 declare -r latest_212="2.12.12"
@@ -69,8 +69,8 @@ declare -a java_args scalac_args sbt_commands residual_args
 declare -a extra_jvm_opts extra_sbt_opts
 
 echoerr() { echo >&2 "$@"; }
-vlog()    { [[ -n "$verbose" ]] && echoerr "$@"; }
-die()     {
+vlog() { [[ -n "$verbose" ]] && echoerr "$@"; }
+die() {
   echo "Aborting: $*"
   exit 1
 }
@@ -145,15 +145,15 @@ url_base() {
   local version="$1"
 
   case "$version" in
-    0.7.*)     echo "https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/simple-build-tool" ;;
-    0.10.*)    echo "$sbt_launch_ivy_release_repo" ;;
-    0.11.[12]) echo "$sbt_launch_ivy_release_repo" ;;
-    0.*-[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9][0-9][0-9]) # ie "*-yyyymmdd-hhMMss"
-      echo          "$sbt_launch_ivy_snapshot_repo" ;;
-    0.*)       echo "$sbt_launch_ivy_release_repo" ;;
-    *-[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]T[0-9][0-9][0-9][0-9][0-9][0-9]) # ie "*-yyyymmddThhMMss"
-      echo          "$sbt_launch_mvn_snapshot_repo" ;;
-    *)         echo "$sbt_launch_mvn_release_repo" ;;
+  0.7.*) echo "https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/simple-build-tool" ;;
+  0.10.*) echo "$sbt_launch_ivy_release_repo" ;;
+  0.11.[12]) echo "$sbt_launch_ivy_release_repo" ;;
+  0.*-[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9][0-9][0-9]) # ie "*-yyyymmdd-hhMMss"
+    echo "$sbt_launch_ivy_snapshot_repo" ;;
+  0.*) echo "$sbt_launch_ivy_release_repo" ;;
+  *-[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]T[0-9][0-9][0-9][0-9][0-9][0-9]) # ie "*-yyyymmddThhMMss"
+    echo "$sbt_launch_mvn_snapshot_repo" ;;
+  *) echo "$sbt_launch_mvn_release_repo" ;;
   esac
 }
 
@@ -163,27 +163,27 @@ make_url() {
   local base="${sbt_launch_repo:-$(url_base "$version")}"
 
   case "$version" in
-    0.7.*)     echo "$base/sbt-launch-0.7.7.jar" ;;
-    0.10.*)    echo "$base/org.scala-tools.sbt/sbt-launch/$version/sbt-launch.jar" ;;
-    0.11.[12]) echo "$base/org.scala-tools.sbt/sbt-launch/$version/sbt-launch.jar" ;;
-    0.*)       echo "$base/org.scala-sbt/sbt-launch/$version/sbt-launch.jar" ;;
-    *)         echo "$base/org/scala-sbt/sbt-launch/$version/sbt-launch-${version}.jar" ;;
+  0.7.*) echo "$base/sbt-launch-0.7.7.jar" ;;
+  0.10.*) echo "$base/org.scala-tools.sbt/sbt-launch/$version/sbt-launch.jar" ;;
+  0.11.[12]) echo "$base/org.scala-tools.sbt/sbt-launch/$version/sbt-launch.jar" ;;
+  0.*) echo "$base/org.scala-sbt/sbt-launch/$version/sbt-launch.jar" ;;
+  *) echo "$base/org/scala-sbt/sbt-launch/$version/sbt-launch-${version}.jar" ;;
   esac
 }
 
-addJava()      {
+addJava() {
   vlog "[addJava] arg = '$1'"
   java_args+=("$1")
 }
-addSbt()       {
+addSbt() {
   vlog "[addSbt] arg = '$1'"
   sbt_commands+=("$1")
 }
-addScalac()    {
+addScalac() {
   vlog "[addScalac] arg = '$1'"
   scalac_args+=("$1")
 }
-addResidual()  {
+addResidual() {
   vlog "[residual] arg = '$1'"
   residual_args+=("$1")
 }
@@ -226,7 +226,7 @@ getJavaVersion() {
 checkJava() {
   # Warn if there is a Java version mismatch between PATH and JAVA_HOME/JDK_HOME
 
-  [[ -n "$JAVA_HOME" && -e "$JAVA_HOME/bin/java"    ]] && java="$JAVA_HOME/bin/java"
+  [[ -n "$JAVA_HOME" && -e "$JAVA_HOME/bin/java" ]] && java="$JAVA_HOME/bin/java"
   [[ -n "$JDK_HOME" && -e "$JDK_HOME/lib/tools.jar" ]] && java="$JDK_HOME/bin/java"
 
   if [[ -n "$java" ]]; then
@@ -324,11 +324,11 @@ acquire_sbt_jar() {
     download_url "${jar_url}" "${sbt_jar}"
 
     case "${sbt_version}" in
-      0.*)
-        vlog "SBT versions < 1.0 do not have published MD5 checksums, skipping check"
-        echo ""
-        ;;
-      *)   verify_sbt_jar "${sbt_jar}" ;;
+    0.*)
+      vlog "SBT versions < 1.0 do not have published MD5 checksums, skipping check"
+      echo ""
+      ;;
+    *) verify_sbt_jar "${sbt_jar}" ;;
     esac
   }
 }
@@ -462,56 +462,56 @@ process_args() {
   }
   while [[ $# -gt 0 ]]; do
     case "$1" in
-      -h |   -help) usage ;;
-      -v)           verbose=true && shift ;;
-      -d)           addSbt "--debug" && shift ;;
-      -w)           addSbt "--warn"  && shift ;;
-      -q)           addSbt "--error" && shift ;;
-      -x)           shift ;; # currently unused
-      -trace)       require_arg integer "$1" "$2" && trace_level="$2" && shift 2 ;;
-      -debug-inc)   addJava "-Dxsbt.inc.debug=true" && shift ;;
+    -h | -help) usage ;;
+    -v) verbose=true && shift ;;
+    -d) addSbt "--debug" && shift ;;
+    -w) addSbt "--warn" && shift ;;
+    -q) addSbt "--error" && shift ;;
+    -x) shift ;; # currently unused
+    -trace) require_arg integer "$1" "$2" && trace_level="$2" && shift 2 ;;
+    -debug-inc) addJava "-Dxsbt.inc.debug=true" && shift ;;
 
-      -no-colors)   addJava "-Dsbt.log.noformat=true" && shift ;;
-      -sbt-create)  sbt_create=true && shift ;;
-      -sbt-dir)     require_arg path "$1" "$2" && sbt_dir="$2" && shift 2 ;;
-      -sbt-boot)    require_arg path "$1" "$2" && addJava "-Dsbt.boot.directory=$2" && shift 2 ;;
-      -ivy)         require_arg path "$1" "$2" && addJava "-Dsbt.ivy.home=$2" && shift 2 ;;
-      -no-share)    noshare=true && shift ;;
-      -offline)     addSbt "set offline in Global := true" && shift ;;
-      -jvm-debug)   require_arg port "$1" "$2" && addDebugger "$2" && shift 2 ;;
-      -batch)       batch=true && shift ;;
-      -prompt)      require_arg "expr" "$1" "$2" && setThisBuild shellPrompt "(s => { val e = Project.extract(s) ; $2 })" && shift 2 ;;
-      -script)      require_arg file "$1" "$2" && sbt_script="$2" && addJava "-Dsbt.main.class=sbt.ScriptMain" && shift 2 ;;
+    -no-colors) addJava "-Dsbt.log.noformat=true" && shift ;;
+    -sbt-create) sbt_create=true && shift ;;
+    -sbt-dir) require_arg path "$1" "$2" && sbt_dir="$2" && shift 2 ;;
+    -sbt-boot) require_arg path "$1" "$2" && addJava "-Dsbt.boot.directory=$2" && shift 2 ;;
+    -ivy) require_arg path "$1" "$2" && addJava "-Dsbt.ivy.home=$2" && shift 2 ;;
+    -no-share) noshare=true && shift ;;
+    -offline) addSbt "set offline in Global := true" && shift ;;
+    -jvm-debug) require_arg port "$1" "$2" && addDebugger "$2" && shift 2 ;;
+    -batch) batch=true && shift ;;
+    -prompt) require_arg "expr" "$1" "$2" && setThisBuild shellPrompt "(s => { val e = Project.extract(s) ; $2 })" && shift 2 ;;
+    -script) require_arg file "$1" "$2" && sbt_script="$2" && addJava "-Dsbt.main.class=sbt.ScriptMain" && shift 2 ;;
 
-      -sbt-version) require_arg version "$1" "$2" && sbt_explicit_version="$2" && shift 2 ;;
-      -sbt-force-latest) sbt_explicit_version="$sbt_release_version" && shift ;;
-      -sbt-dev)     sbt_explicit_version="$sbt_unreleased_version" && shift ;;
-      -sbt-jar)     require_arg path "$1" "$2" && sbt_jar="$2" && shift 2 ;;
-      -sbt-launch-dir) require_arg path "$1" "$2" && sbt_launch_dir="$2" && shift 2 ;;
-      -sbt-launch-repo) require_arg path "$1" "$2" && sbt_launch_repo="$2" && shift 2 ;;
+    -sbt-version) require_arg version "$1" "$2" && sbt_explicit_version="$2" && shift 2 ;;
+    -sbt-force-latest) sbt_explicit_version="$sbt_release_version" && shift ;;
+    -sbt-dev) sbt_explicit_version="$sbt_unreleased_version" && shift ;;
+    -sbt-jar) require_arg path "$1" "$2" && sbt_jar="$2" && shift 2 ;;
+    -sbt-launch-dir) require_arg path "$1" "$2" && sbt_launch_dir="$2" && shift 2 ;;
+    -sbt-launch-repo) require_arg path "$1" "$2" && sbt_launch_repo="$2" && shift 2 ;;
 
-      -28)          setScalaVersion "$latest_28"  && shift ;;
-      -29)          setScalaVersion "$latest_29"  && shift ;;
-      -210)         setScalaVersion "$latest_210" && shift ;;
-      -211)         setScalaVersion "$latest_211" && shift ;;
-      -212)         setScalaVersion "$latest_212" && shift ;;
-      -213)         setScalaVersion "$latest_213" && shift ;;
+    -28) setScalaVersion "$latest_28" && shift ;;
+    -29) setScalaVersion "$latest_29" && shift ;;
+    -210) setScalaVersion "$latest_210" && shift ;;
+    -211) setScalaVersion "$latest_211" && shift ;;
+    -212) setScalaVersion "$latest_212" && shift ;;
+    -213) setScalaVersion "$latest_213" && shift ;;
 
-      -scala-version) require_arg version "$1" "$2" && setScalaVersion "$2" && shift 2 ;;
-      -binary-version) require_arg version "$1" "$2" && setThisBuild scalaBinaryVersion "\"$2\"" && shift 2 ;;
-      -scala-home)  require_arg path "$1" "$2" && setThisBuild scalaHome "_root_.scala.Some(file(\"$2\"))" && shift 2 ;;
-      -java-home)   require_arg path "$1" "$2" && setJavaHome "$2" && shift 2 ;;
-      -sbt-opts)    require_arg path "$1" "$2" && sbt_opts_file="$2" && shift 2 ;;
-      -sbtx-opts) require_arg path "$1" "$2" && sbtx_opts_file="$2" && shift 2 ;;
-      -jvm-opts)    require_arg path "$1" "$2" && jvm_opts_file="$2" && shift 2 ;;
+    -scala-version) require_arg version "$1" "$2" && setScalaVersion "$2" && shift 2 ;;
+    -binary-version) require_arg version "$1" "$2" && setThisBuild scalaBinaryVersion "\"$2\"" && shift 2 ;;
+    -scala-home) require_arg path "$1" "$2" && setThisBuild scalaHome "_root_.scala.Some(file(\"$2\"))" && shift 2 ;;
+    -java-home) require_arg path "$1" "$2" && setJavaHome "$2" && shift 2 ;;
+    -sbt-opts) require_arg path "$1" "$2" && sbt_opts_file="$2" && shift 2 ;;
+    -sbtx-opts) require_arg path "$1" "$2" && sbtx_opts_file="$2" && shift 2 ;;
+    -jvm-opts) require_arg path "$1" "$2" && jvm_opts_file="$2" && shift 2 ;;
 
-      -D*)          addJava "$1" && shift ;;
-      -J*)          addJava "${1:2}" && shift ;;
-      -S*)          addScalac "${1:2}" && shift ;;
+    -D*) addJava "$1" && shift ;;
+    -J*) addJava "${1:2}" && shift ;;
+    -S*) addScalac "${1:2}" && shift ;;
 
-      new)          sbt_new=true && : ${sbt_explicit_version:=$sbt_release_version} && addResidual "$1" && shift ;;
+    new) sbt_new=true && : ${sbt_explicit_version:=$sbt_release_version} && addResidual "$1" && shift ;;
 
-      *)            addResidual "$1" && shift ;;
+    *) addResidual "$1" && shift ;;
     esac
   done
 }
@@ -566,8 +566,8 @@ checkJava
 # only exists in 0.12+
 setTraceLevel() {
   case "$sbt_version" in
-    "0.7."* | "0.10."* | "0.11."*) echoerr "Cannot set trace level in sbt version $sbt_version" ;;
-    *)                             setThisBuild traceLevel "$trace_level" ;;
+  "0.7."* | "0.10."* | "0.11."*) echoerr "Cannot set trace level in sbt version $sbt_version" ;;
+  *) setThisBuild traceLevel "$trace_level" ;;
   esac
 }
 
@@ -619,12 +619,12 @@ if [[ -n "$noshare" ]]; then
   done
 else
   case "$sbt_version" in
-    "0.7."* | "0.10."* | "0.11."* | "0.12."*)
-      [[ -n "$sbt_dir" ]] || {
-        sbt_dir="$HOME/.sbt/$sbt_version"
-        vlog "Using $sbt_dir as sbt dir, -sbt-dir to override."
-      }
-      ;;
+  "0.7."* | "0.10."* | "0.11."* | "0.12."*)
+    [[ -n "$sbt_dir" ]] || {
+      sbt_dir="$HOME/.sbt/$sbt_version"
+      vlog "Using $sbt_dir as sbt dir, -sbt-dir to override."
+    }
+    ;;
   esac
 
   if [[ -n "$sbt_dir" ]]; then
@@ -640,7 +640,7 @@ elif [[ -n "$JVM_OPTS" && ! ("$JVM_OPTS" =~ ^@.*) ]]; then
   IFS=" " read -r -a extra_jvm_opts <<<"$JVM_OPTS"
 else
   vlog "Using default jvm options"
-  IFS=" " read -r -a extra_jvm_opts <<<"$( default_jvm_opts)"
+  IFS=" " read -r -a extra_jvm_opts <<<"$(default_jvm_opts)"
 fi
 
 # traceLevel is 0.12+
