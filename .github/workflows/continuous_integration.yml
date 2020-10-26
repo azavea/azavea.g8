@@ -40,3 +40,21 @@ jobs:
             --default-api-port=8080 \
             --default-db-port=5432
           cd ci && sbt ";bloopInstall; scalafmt; scalafmtSbt"
+  merge-dependabot:
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ridedott/merge-me-action@v1.8.14
+        with:
+          GITHUB_LOGIN: "dependabot[bot]"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  merge-dependabot-preview:
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ridedott/merge-me-action@v1.8.14
+        with:
+          GITHUB_LOGIN: "dependabot-preview[bot]"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
