@@ -1,9 +1,9 @@
 package $package$.api.commands
 
 import cats.effect.{ContextShift, ExitCode, IO}
+import cats.implicits._
 import com.monovore.decline._
 import org.flywaydb.core.Flyway
-import cats.implicits._
 
 object Commands {
 

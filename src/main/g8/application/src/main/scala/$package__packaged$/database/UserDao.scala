@@ -1,13 +1,14 @@
 package $package$.database
 
-import java.util.UUID
-
-import $package$.datamodel.User
 import $package$.database.util.Dao
-import doobie.util.fragment.Fragment
+import $package$.datamodel.User
+
 import doobie._
 import doobie.implicits._
 import doobie.postgres.implicits._
+import doobie.util.fragment.Fragment
+
+import java.util.UUID
 
 object UserDao extends Dao[User] {
   val tableName: String = "users"

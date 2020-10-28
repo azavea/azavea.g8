@@ -1,9 +1,9 @@
 package $package$.datamodel
 
-import java.util.UUID
-
 import io.circe._
 import io.circe.generic.semiauto._
+
+import java.util.UUID
 
 case class User(id: UUID, email: String)
 
