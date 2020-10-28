@@ -59,7 +59,7 @@ val tapirSwaggerUIHttp4s = "com.softwaremill.sttp.tapir" %% "tapir-swagger-ui-ht
 
 // Enable a basic import sorter -- rules are defined in .scalafix.conf
 ThisBuild / scalafixDependencies +=
-  "com.nequissimus" %% "sort-imports" % "0.5.4"
+  "com.github.liancheng" %% "organize-imports" % "0.4.3"
 
 lazy val settings = Seq(
   organization := "$organization$",

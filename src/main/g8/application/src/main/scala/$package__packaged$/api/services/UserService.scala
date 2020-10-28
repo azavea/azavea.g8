@@ -1,19 +1,20 @@
 package $package$.api.services
 
-import java.util.UUID
-
-import cats.effect._
-import cats.implicits._
 import $package$.api.endpoints.UserEndpoints
 import $package$.database.UserDao
 import $package$.datamodel.User
-import doobie.util.transactor.Transactor
+
+import cats.effect._
+import cats.implicits._
 import doobie._
 import doobie.implicits._
+import doobie.util.transactor.Transactor
+import eu.timepit.refined.auto._
 import org.http4s._
 import org.http4s.dsl.Http4sDsl
 import sttp.tapir.server.http4s._
-import eu.timepit.refined.auto._
+
+import java.util.UUID
 
 class UsersService[F[_]: Sync](xa: Transactor[F])(
     implicit contextShift: ContextShift[F]

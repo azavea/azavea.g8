@@ -1,10 +1,11 @@
 package $package$.api
 
-import cats.effect._
-import cats.implicits._
 import $package$.api.commands.{ApiConfig, Commands, DatabaseConfig}
 import $package$.api.endpoints.UserEndpoints
 import $package$.api.services.UsersService
+
+import cats.effect._
+import cats.implicits._
 import doobie.hikari.HikariTransactor
 import doobie.util.ExecutionContexts
 import org.http4s.implicits._
