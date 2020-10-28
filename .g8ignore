@@ -1,0 +1,3 @@
+# Files named `test` are ignored by default, this explicitly includes it.
+# See https://github.com/foundweekends/giter8/issues/221
+!scripts/test
