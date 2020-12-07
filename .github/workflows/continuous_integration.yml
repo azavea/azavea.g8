@@ -46,7 +46,7 @@ jobs:
       - build
     runs-on: ubuntu-latest
     steps:
-      - uses: ridedott/merge-me-action@v1.8.64
+      - uses: ridedott/merge-me-action@v1.8.73
         with:
           GITHUB_LOGIN: "dependabot[bot]"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -56,7 +56,7 @@ jobs:
       - build
     runs-on: ubuntu-latest
     steps:
-      - uses: ridedott/merge-me-action@v1.8.64
+      - uses: ridedott/merge-me-action@v1.8.73
         with:
           GITHUB_LOGIN: "dependabot-preview[bot]"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -66,7 +66,7 @@ jobs:
       - build
     runs-on: ubuntu-latest
     steps:
-      - uses: ridedott/merge-me-action@v1.8.64
+      - uses: ridedott/merge-me-action@v1.8.73
         with:
           GITHUB_LOGIN: "azavea-bot"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
