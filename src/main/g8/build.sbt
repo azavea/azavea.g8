@@ -2,6 +2,41 @@ Global / cancelable := true
 Global / onLoad ~= (_ andThen ("project application" :: _))
 
 import sbt._
+import sbtwelcome._
+
+lazy val noWelcome = Seq(
+  onLoadMessage := ""
+)
+
+logo :=
+  """
+    |                                                         aaaa
+    |                                                        a    a
+    |  aaaa  aaaaa  aaaa  a    a  aaaa    aaaa        aaaaa  a    a
+    | a    a     a a    a a    a aa  aa  a    a      aa  aa  a    a
+    |      a    a       a  a  a  a    a       a      a    a   aaaa
+    |  aaaaa   a    aaaaa  a  a  aaaaaa   aaaaa      a    a  a    a
+    | a    a  a    a    a  a  a  a       a    a      a    a  a    a
+    | a   aa a     a   aa   aa   aa   a  a   aa  a   aa  aa  a    a
+    |  aaa a aaaaa  aaa a   aa    aaaa    aaa a  a    aaaaa   aaaa
+    |                                                     a
+    |                                                 a  aa
+    |                                                  aaa
+  """.stripMargin
+
+usefulTasks := Seq(
+  UsefulTask("a", "~application/compile", "Compile the application with file watch enabled"),
+  UsefulTask("b", "application/compile", "Compile the application without file watch enabled"),
+  UsefulTask("c", "application/test", "Run tests in the application subproject"),
+  UsefulTask("d", "application/testOnly *FooSpec", "Run tests in the application subproject with class names ending with *FooSpec"),
+  UsefulTask("e", "fix", "Run scalafmt, scalafix, and scalafmtSbt"),
+  UsefulTask("f", "projects", "View available subprojects")
+)
+
+addCommandAlias(
+  "fix",
+  ";scalafix;scalafmt;scalafmtSbt"
+)
 
 // Versions
 val CirceFs2Version         = "0.13.0"
@@ -105,7 +140,10 @@ lazy val settings = Seq(
       Resolver.ivyStylePatterns
     )
   ),
-  run / fork := true
+  run / fork := true,
+  shellPrompt := { s =>
+    Project.extract(s).currentProject.id + " > "
+  }
 )
 
 lazy val dependencies = Seq(
@@ -149,4 +187,6 @@ lazy val application = (project in file("application"))
   .settings({
     libraryDependencies ++= dependencies
   })
+  .settings(noWelcome: _*)
+
 lazy val applicationRef = LocalProject("application")
