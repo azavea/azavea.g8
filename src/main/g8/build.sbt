@@ -30,7 +30,8 @@ usefulTasks := Seq(
   UsefulTask("c", "application/test", "Run tests in the application subproject"),
   UsefulTask("d", "application/testOnly *FooSpec", "Run tests in the application subproject with class names ending with *FooSpec"),
   UsefulTask("e", "fix", "Run scalafmt, scalafix, and scalafmtSbt"),
-  UsefulTask("f", "projects", "View available subprojects")
+  UsefulTask("f", "project foo", "Switch to subproject foo (all commands are effectively prefixed by foo)"),
+  UsefulTask("g", "projects", "View available subprojects"),
 )
 
 addCommandAlias(
