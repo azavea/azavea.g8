@@ -25,7 +25,7 @@ then
             ;;
         *)
             echo -e "\e[32m[$name$] Running migrations\e[0m"
-            bloop run application --args migrate
+            sbt 'application/run migrate'
             ;;
     esac
 fi
