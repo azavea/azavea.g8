@@ -39,7 +39,7 @@ jobs:
             --package=com.azavea.ci \
             --default-api-port=8080 \
             --default-db-port=5432
-          cd ci && sbt ";bloopInstall; scalafmt; scalafmtSbt; scalafix --check"
+          cd ci && sbt ";application/compile; scalafmt; scalafmtSbt; scalafix --check"
 
   merge-dependabot:
     needs:
