@@ -22,8 +22,8 @@ then
             usage
             ;;
         *)
-            echo -e "\e[32m[$name$] Configuring bloop...\e[0m"
-            sbt ";bloopInstall; scalafmt; scalafmtSbt"
+            echo -e "\e[32m[$name$] Compiling and formatting application...\e[0m"
+            sbt ";application/compile; scalafmt; scalafmtSbt"
             docker-compose up -d database
             ./scripts/migrate
     esac

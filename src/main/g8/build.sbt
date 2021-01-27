@@ -1,7 +1,45 @@
 Global / cancelable := true
-Global / onLoad ~= (_ andThen ("project application" :: _))
 
 import sbt._
+import sbtwelcome._
+
+lazy val rootWelcome = Seq(
+  logo := "",
+  usefulTasks := Seq(
+    UsefulTask("a", "project application", "Switch to the application subproject"),
+  )
+)
+
+lazy val welcome = Seq(
+  logo := """
+    |                                                         aaaa
+    |                                                        a    a
+    |  aaaa  aaaaa  aaaa  a    a  aaaa    aaaa        aaaaa  a    a
+    | a    a     a a    a a    a aa  aa  a    a      aa  aa  a    a
+    |      a    a       a  a  a  a    a       a      a    a   aaaa
+    |  aaaaa   a    aaaaa  a  a  aaaaaa   aaaaa      a    a  a    a
+    | a    a  a    a    a  a  a  a       a    a      a    a  a    a
+    | a   aa a     a   aa   aa   aa   a  a   aa  a   aa  aa  a    a
+    |  aaa a aaaaa  aaa a   aa    aaaa    aaa a  a    aaaaa   aaaa
+    |                                                     a
+    |                                                 a  aa
+    |                                                  aaa
+  """.stripMargin,
+  usefulTasks := Seq(
+    UsefulTask("a", "~compile", "Compile the application with file watch enabled"),
+    UsefulTask("b", "compile", "Compile the application without file watch enabled"),
+    UsefulTask("c", "test", "Run tests in the application subproject"),
+    UsefulTask("d", "testOnly *FooSpec", "Run tests in the application subproject with class names ending with *FooSpec"),
+    UsefulTask("e", "fix", "Run scalafmt, scalafix, and scalafmtSbt"),
+    UsefulTask("f", "project foo", "Switch to subproject foo (all commands are effectively prefixed by foo)"),
+    UsefulTask("g", "projects", "View available subprojects"),
+  )
+)
+
+addCommandAlias(
+  "fix",
+  ";scalafix;scalafmt;scalafmtSbt"
+)
 
 // Versions
 val CirceFs2Version         = "0.13.0"
@@ -105,7 +143,11 @@ lazy val settings = Seq(
       Resolver.ivyStylePatterns
     )
   ),
-  run / fork := true
+  run / fork := true,
+  shellPrompt := { s =>
+    Project.extract(s).currentProject.id + " > "
+  },
+  outputStrategy := Some(StdoutOutput)
 )
 
 lazy val dependencies = Seq(
@@ -144,9 +186,15 @@ lazy val dependencies = Seq(
   tapirSwaggerUIHttp4s
 )
 
+lazy val root = project
+  .in(file("."))
+  .settings(rootWelcome: _*)
+
 lazy val application = (project in file("application"))
   .settings(settings: _*)
+  .settings(welcome: _*)
   .settings({
     libraryDependencies ++= dependencies
   })
+
 lazy val applicationRef = LocalProject("application")

@@ -24,7 +24,7 @@ then
             ;;
         *)
             echo -e "\e[32m[$name$] Starting API service\e[0m"
-            bloop run application --args serve
+            sbt 'application/run serve'
             ;;
     esac
 fi

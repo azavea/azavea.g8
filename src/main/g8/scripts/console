@@ -16,7 +16,7 @@ then
             usage
             ;;
         *)
-            bloop console application
+            sbt application/console
             ;;
     esac
 fi

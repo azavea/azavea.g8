@@ -24,7 +24,7 @@ if [ "\${BASH_SOURCE[0]}" = "\${0}" ]; then
             sbt "scalafix --check"
 
             echo -e "\e[32m[$name$] Execute Scala tests\e[0m"
-            bloop test application
+            sbt application/test
             ;;
     esac
 fi
