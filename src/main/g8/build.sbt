@@ -146,7 +146,8 @@ lazy val settings = Seq(
   run / fork := true,
   shellPrompt := { s =>
     Project.extract(s).currentProject.id + " > "
-  }
+  },
+  outputStrategy := Some(StdoutOutput)
 )
 
 lazy val dependencies = Seq(
