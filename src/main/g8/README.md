@@ -7,7 +7,6 @@ The following tools must be present for a development environment:
  - Docker
  - Java 8 or newer -- if this is a problem, try using [`jabba`](https://github.com/shyiko/jabba#jabba--) to manage different java versions
  - Sbt 1.x -- the newer the better probably, installation instructions can be found [here](https://www.scala-sbt.org/download.html)
- - [Bloop](https://scalacenter.github.io/bloop/) -- this is a scala build server that should run in the background for building the project; installation instructions can be found [here](https://scalacenter.github.io/bloop/setup)
 
 ### STRTA
 
