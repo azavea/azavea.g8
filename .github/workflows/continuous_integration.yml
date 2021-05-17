@@ -23,7 +23,7 @@ jobs:
           java-version: ${{ matrix.jdk-version }}
 
       - name: Cache dependencies
-        uses: actions/cache@v2.1.4
+        uses: actions/cache@v2.1.5
         with:
           path: |
             ~/.ivy2/cache
